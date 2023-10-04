@@ -1,15 +1,13 @@
 package org.rational.coffee
 
 import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
 import org.yaml.snakeyaml.Yaml
 import zio.ZLayer
 
 import java.io.{File, FileReader}
 import java.util
-import javax.sql.DataSource
 import com.mysql.cj.jdbc.MysqlDataSource
-
-import scala.collection.convert.ImplicitConversions.`map AsScala`
 
 private val gson = new Gson()
 private val env: String =
@@ -25,16 +23,19 @@ private val secretReader = new FileReader(
 private val yamlData: util.LinkedHashMap[String, Any] = new Yaml().load(
   configReader
 )
-private val dbData: util.LinkedHashMap[String, Any] =
-  yamlData.get("db").asInstanceOf[util.LinkedHashMap[String, Any]]
 
 private val secretsData: util.LinkedHashMap[String, Any] = gson.fromJson(
   secretReader,
   util.LinkedHashMap[String, Any]().getClass
 )
 
-private val data = dbData ++ secretsData
-private val dataString: String = gson.toJson(data)
+val dbSecrets: LinkedTreeMap[String, Any] =
+  secretsData
+    .get("db")
+    .asInstanceOf[LinkedTreeMap[String, Any]]
+
+val dbData: util.LinkedHashMap[String, Any] =
+  yamlData.get("db").asInstanceOf[util.LinkedHashMap[String, Any]]
 
 case class DBConfig(
     host: String,
@@ -51,8 +52,11 @@ case class DBConfig(
     ds.setUser(user)
     ds.setPassword(password)
     ds
+
 object DBConfig:
   def layer: ZLayer[Any, Throwable, DBConfig] =
+    dbData.putAll(dbSecrets)
+    val dataString: String = gson.toJson(dbData)
     ZLayer.succeed(
       new Gson().fromJson(
         dataString,

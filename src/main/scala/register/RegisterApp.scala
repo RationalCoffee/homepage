@@ -7,6 +7,9 @@ import zio.http.*
 case class RegisterApp(registerRepository: RegisterRepository):
   val http: Http[Any, Nothing, Request, Response] =
     Http.collectZIO[Request] {
+      case Method.GET -> Root / "hello" =>
+        ZIO.succeed(Response.text("Hello World!"))
+
       case req @ Method.POST -> Root / "api" / "v1" / "pre-register" =>
         for
           body <- req.body.asString.orDie

@@ -2,7 +2,7 @@ package org.rational.coffee
 
 import register.{MySqlRegisterRepository, RegisterApp}
 
-import zio.http.Server
+import zio.http.{RequestHandlerMiddlewares, Server}
 import zio.{Scope, ZIO, ZIOAppArgs, ZIOAppDefault}
 
 object App extends ZIOAppDefault:
@@ -10,7 +10,7 @@ object App extends ZIOAppDefault:
     (for
       registerApp <- ZIO.service[RegisterApp]
       _ <- Server.serve(
-        registerApp.http.withDefaultErrorResponse
+        (registerApp.http @@ RequestHandlerMiddlewares.debug).withDefaultErrorResponse
       )
     yield ())
       .provide(
