@@ -129,5 +129,24 @@ project/plugins/project/
 ### SBT Patch ###
 .bsp/
 
+### react ###
+.DS_*
+*.log
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
+
 # End of https://www.toptal.com/developers/gitignore/api/sbt
 # End of https://www.toptal.com/developers/gitignore/api/scala,intellij+all,git
+
+# User generated files
+secrets.json
