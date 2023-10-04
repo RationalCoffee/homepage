@@ -25,11 +25,11 @@
                 <div class="container-fluid px-4 px-lg-0">
                     <h1 class="fst-italic lh-1 mb-4">Rational Coffee is Coming Soon</h1>
                     <p class="mb-5">We're working hard to finish the development of this site. Sign up below to receive updates and to be notified when we launch!</p>
-                    <form id="contactForm" url="TODO">
+                    <form id="contactForm" url="/api/v1/pre-register" method="post">
                         <!-- Email address input-->
                         <div class="row input-group-newsletter">
                             <div class="col"><input class="form-control" id="email" type="email" placeholder="Enter email address..." aria-label="Enter email address..." data-sb-validations="required,email" /></div>
-                            <div class="col-auto"><button class="btn btn-primary disabled" id="submitButton" type="submit">Notify Me!</button></div>
+                            <div class="col-auto"><button class="btn btn-primary" id="submitButton" type="submit">Notify Me!</button></div>
                         </div>
                     </form>
                 </div>
@@ -37,4 +37,31 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
+<script>
+    function postData(url, data) {
+        return fetch(url, {
+            body: JSON.stringify(data),
+            headers: {
+                'content-type': 'application/json'
+            },
+            method: 'POST'
+        })
+    }
+    let form = document.getElementById('contactForm');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        let email = document.getElementById('email').value;
+        postData(form.getAttribute('url'), {email: email})
+            .then(function (res) {
+                if (res.status === 200) {
+                    alert('Thank you for your interest in Rational Coffee. We will notify you when we launch!');
+                } else {
+                    alert('Something went wrong. Please try again later.');
+                }
+            })
+            .catch(function (err) {
+                alert('Something went wrong. Please try again later.');
+            });
+    });
+</script>
 </html>
