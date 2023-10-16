@@ -122,6 +122,8 @@ lib_managed/
 src_managed/
 project/boot/
 project/plugins/project/
+project/project/target/
+project/target/
 .history
 .cache
 .lib/
@@ -148,5 +150,58 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/sbt
 # End of https://www.toptal.com/developers/gitignore/api/scala,intellij+all,git
 
-# User generated files
+### Metal ###
+# Reference: https://github.com/scalameta/metals/blob/main/.gitignore
+*.class
+*.log
+
+# sbt specific
+**/.bloop
+.bsp/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+.idea
+
+# ENSIME specific
+.ensime_cache/
+.ensime
+
+.metals/
+.ammonite/
+metals.sbt
+metals/project/
+
+.vscode/
+
+local.*
+
+.DS_Store
+
+node_modules
+
+lib/core/metadata.js
+lib/core/MetadataBlog.js
+
+website/translated_docs
+website/build/
+website/yarn.lock
+website/node_modules
+website/i18n/*
+!website/i18n/en.json
+website/.docusaurus
+website/.cache-loader
+
+project/metals.sbt
+coursier
+
+# Scala CLI
+
+.scala-build/
+
+# Sourcegraph specific
+index.scip
+
+### User generated files ###
 secrets.json
