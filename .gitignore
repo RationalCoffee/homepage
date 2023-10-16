@@ -150,7 +150,7 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/sbt
 # End of https://www.toptal.com/developers/gitignore/api/scala,intellij+all,git
 
-### scala ###
+### Metal ###
 # Reference: https://github.com/scalameta/metals/blob/main/.gitignore
 *.class
 *.log
