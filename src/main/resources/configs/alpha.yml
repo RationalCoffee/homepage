@@ -1,0 +1,4 @@
+db:
+  host: inspecialty-alpha.iptime.org
+  port: 20090
+  database: coffee
